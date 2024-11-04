@@ -14,11 +14,12 @@
 - Swagger Documentation for APIs
 
 ## how to run application locally
-- Pull the app repo
-- Go to app directory
+- pull the app repo
+- go to app directory
 - run command 'sudo docker compose build'
 - run command 'sudo docker compose up'
 - access the app from 'http://localhost:8080'
+- access swagger documentation from 'http://localhost:8080/api-docs'
 - poulate the movies and genres by sending get request to 'http://localhost:8080/movies/populate'
 - signup
 - use the app
