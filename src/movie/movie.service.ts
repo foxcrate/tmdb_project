@@ -8,9 +8,8 @@ import { MovieReturnDto } from './dtos/movie-return.dto';
 import { MovieFilterDto } from './dtos/movie-filter.dto';
 import { PaginationDto } from './dtos/pagination.dto';
 import { GenreEntity } from './genre.entity';
-import { RateMovieDto } from './dtos/rate-movie.dto';
-import { UserEntity } from 'src/user/user.entity';
-import { UserService } from 'src/user/user.service';
+import { UserEntity } from '../user/user.entity';
+import { UserService } from '../user/user.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 

@@ -4,8 +4,8 @@ import { MovieController } from './movie.controller';
 import { MovieEntity } from './movies.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GenreEntity } from './genre.entity';
-import { AuthModule } from 'src/auth/auth.module';
-import { UserModule } from 'src/user/user.module';
+import { AuthModule } from '../auth/auth.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MovieEntity,GenreEntity]),AuthModule,UserModule],

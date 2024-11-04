@@ -1,9 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { UserEntity } from 'src/user/user.entity';
-import { MovieEntity } from 'src/movie/movies.entity';
-import { GenreEntity } from 'src/movie/genre.entity';
+import { UserEntity } from './src/user/user.entity';
+import { MovieEntity } from './src/movie/movies.entity';
+import { GenreEntity } from './src/movie/genre.entity';
 
 
 ConfigModule.forRoot({

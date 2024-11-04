@@ -1,4 +1,3 @@
-// src/movie/dto/rate-movie.dto.ts
 import { IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
 
 export class RateMovieDto {

@@ -2,9 +2,9 @@ import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/co
 import { MovieService } from './movie.service';
 import { MovieFilterDto } from './dtos/movie-filter.dto';
 import { PaginationDto } from './dtos/pagination.dto';
-import { AuthGuard } from 'src/auth/auth-guard';
+import { AuthGuard } from '../auth/auth-guard';
 import { RateMovieDto } from './dtos/rate-movie.dto';
-import { UserId } from 'src/user/decorators/user-id.decorator';
+import { UserId } from '../user/decorators/user-id.decorator';
 
 @Controller('movies')
 export class MovieController {
