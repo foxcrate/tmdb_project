@@ -160,6 +160,11 @@ export class MovieService {
     }
   }
 
+  //get gernres
+  async getGenres(): Promise<GenreEntity[]> {
+    return this.genreRepository.find();
+  }
+
   async rateMovie(movieId: number, ratingNumber: number): Promise<Partial<MovieEntity>> {
     const movie = await this.moviesRepository.findOneBy({ id: movieId });
     if (!movie) {

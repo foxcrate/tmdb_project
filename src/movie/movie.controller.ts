@@ -9,6 +9,7 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiParam, ApiQuery } f
 import { MovieEntity } from './entites/movies.entity';
 import { WholeMovieReturnDto } from './dtos/whole-movie-return.dto';
 import { UserWithMoviesDto } from 'src/user/dtos/user-with-movies.dto';
+import { GenreEntity } from './entites/genre.entity';
 
 @Controller('movies')
 export class MovieController {
@@ -34,6 +35,16 @@ export class MovieController {
     return await this.movieService.getMovies(filter, pagination);
   }
 
+//get all genres
+  @ApiOperation({ summary: 'Get all genres'})
+  @ApiCreatedResponse({
+    type: GenreEntity,
+    isArray: true,
+  })
+  @Get('genres')
+  async getGenres() {
+    return await this.movieService.getGenres();
+  }
 
   @ApiOperation({ summary: 'Get my favorite movies'})
   @ApiCreatedResponse({
