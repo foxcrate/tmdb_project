@@ -2,16 +2,16 @@ import { Injectable, HttpException, HttpStatus, NotFoundException, ConflictExcep
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
-import { MovieEntity } from './movies.entity';
+import { MovieEntity } from './entites/movies.entity';
 import { In, LessThan, LessThanOrEqual, Like, MoreThan, Repository } from 'typeorm';
-import { MovieReturnDto } from './dtos/movie-return.dto';
 import { MovieFilterDto } from './dtos/movie-filter.dto';
 import { PaginationDto } from './dtos/pagination.dto';
-import { GenreEntity } from './genre.entity';
-import { UserEntity } from '../user/user.entity';
+import { GenreEntity } from './entites/genre.entity';
+import { UserEntity } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { WholeMovieReturnDto } from './dtos/whole-movie-return.dto';
 
 @Injectable()
 export class MovieService {
@@ -81,9 +81,9 @@ export class MovieService {
     return allMovies;
   }
 
-  async getMovieById(id: number): Promise<MovieReturnDto> {
+  async getMovieById(id: number): Promise<WholeMovieReturnDto> {
     let theMovie =  await this.moviesRepository.findOne({ where: { id: id },
-      select:["id","title","overview","releaseDate","voteAverage"] });
+      relations:["genres"] });
     
     if(!theMovie){
       throw new HttpException('Movie not found', HttpStatus.NOT_FOUND);
@@ -147,9 +147,6 @@ export class MovieService {
         queryOptions.where.genres = { id: genreId };
       }
 
-      // console.log(queryOptions);
-      
-
       // Execute query with pagination and return both data and total count
       const [movies, total] = await this.moviesRepository.findAndCount(queryOptions);
 
@@ -170,6 +167,7 @@ export class MovieService {
     }
 
     movie.voteCount += 1;
+    //calculate new average
     movie.voteAverage = (Number(movie.voteAverage) * (movie.voteCount - 1)
       + Number(ratingNumber)) / movie.voteCount;
 
@@ -192,10 +190,6 @@ export class MovieService {
       throw new NotFoundException('Movie not found');
     }
 
-    // if (user.movies.some(fav => fav.id === movieId)) {
-    //   throw new ConflictException('Movie is already a favorite');
-    // }
-
     // Add the movie to the user's favorites
     user.movies.push(movie);
 
@@ -207,8 +201,14 @@ export class MovieService {
     // Find the user with their favorite movies
     const user = await this.userService.findWithMovies(userId);
 
+    const movie = await this.moviesRepository.findOne({ where: { id: movieId } });
+
     if (!user) {
       throw new NotFoundException('User not found');
+    }
+
+    if (!movie) {
+      throw new NotFoundException('Movie not found');
     }
 
     // Check if the movie is in the user's favorites
@@ -245,17 +245,14 @@ export class MovieService {
         },
       });
 
-      // console.log(response.data.genres);
       let genres = response.data.genres;
       
       await this.genreRepository.save(genres);
     } catch (error) {
       console.log(error);
       
-      throw new HttpException('Error fetching popular movies', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    
+      throw new HttpException('Error fetching popular genres', HttpStatus.INTERNAL_SERVER_ERROR);
+    }    
     return true
   }
 
@@ -288,8 +285,7 @@ export class MovieService {
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
   
-    let slicedArray:any[] = array.slice(startIndex, endIndex);
-    return slicedArray;
+    return array.slice(startIndex, endIndex);
   }
 }
 

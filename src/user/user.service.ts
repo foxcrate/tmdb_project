@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './user.entity';
+import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -14,11 +14,9 @@ export class UserService {
     
     let sameEmail = await this.findByEmail(userData.email);
     if (sameEmail) {
-        // throw exception
         throw new BadRequestException('email already exists');
     }
     let newUser = await this.userRepository.save(userData);
-    // console.log(newUser);
     return newUser;
     
   }
@@ -39,9 +37,7 @@ export class UserService {
     await this.userRepository.update(userId,userData);
   }
 
-  async findByEmail(email: string) {
-    // console.log(email);
-    
+  async findByEmail(email: string) {   
     return this.userRepository.findOneBy({ email: email });
   }
 
