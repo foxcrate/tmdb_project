@@ -10,11 +10,11 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=5432
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=postgres
-      - DATABASE_NAME=movies_db
+      - DATABASE_USER=root
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_PASSWORD=123456789
+      - DB_NAME=tmdb_project
     networks:
       - backend
 

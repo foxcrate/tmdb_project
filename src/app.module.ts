@@ -16,7 +16,7 @@ import { redisStore } from 'cache-manager-redis-yet';
       useFactory: async () => ({  
         store: await redisStore({  
           socket: {  
-            host: 'localhost',  
+            host: 'redis',  
             port: 6379,  
           },        
         }),      
